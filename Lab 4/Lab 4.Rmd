@@ -1,0 +1,107 @@
+---
+title: "Lab 4"
+author: "Tae Hwan Yoo"
+date: "September 17, 2017"
+output:
+  word_document: default
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+#You are told that in Providence Rhode Island the height of women averages 64 inches (5'4") with a standard deviation of 1.5 inches.
+#Of the 178 thousand people in Providence Rhode Island, 52% are women.
+
+#PART 1)
+
+#1.1) Simulate the population described above. Call the population variable popri (1 pt)
+```{r}
+popri <- rnorm(178000, 64, 1.5)
+```
+#1.2) Compute the mean and sd of this population (0.5 pt). How does this mean and sd compare to the true mean (64) and sd (1.5) (0.5 pt)?
+# Part a
+```{r}
+mean(popri)
+sd(popri)
+```
+# Part b
+The mean and sd from the random population simulation is somewhat near the true mean and sd, every time the simulation is done. It is conclusive that it is statistically improbable for the simulation to have EXACTLY the true mean and sd, but it shows that it can be near it.
+
+#1.3) Plot a density plot of this population (0.5 pt). What does this distribution look like? (0.5 pt)		
+# Part a
+```{r}
+hist(popri)
+```
+# Part b
+The population is more near to 64 than other measurements. Therefore, the graph grows higher the closer to 64, and lower the more far from 64. 
+		
+#PART 2)		
+		
+#2.1) Take a random sample of popri containing 10 people and call the variable sam10 (1 pt)
+```{r}
+sam10 = sample(x = popri, size = 10, replace = TRUE)
+```
+		
+#2.2) Compute the mean and sd of the sample sam10 (0.5 pt). 
+```{r}
+mean(sam10)
+sd(sam10)
+```
+
+#2.3) Take a random sample of popri containing 1000 people and call the variable sam1000 (1 pt)
+```{r}
+sam1000 = sample(x = popri, size = 1000, replace = TRUE)
+```
+#2.4) Compute the mean and sd of the sample sam1000 (0.5 pt). 
+```{r}
+mean(sam1000)
+sd(sam1000)
+```
+#2.5) Which is closer to the true population mean and sd; the sample with 10 people or the sample with 1000 people? (1pt)
+The sample with 1000 is noticably closer to the true population mean and sd than the sample with 10 people. This is because there are more people in the sample, and therefore a higher chance for an individual to be 64 inches, therefore causing the average to be closer to 64. In the case of sd, since there are less people in sam10, the possibly of the graph to have numbers different from each other are higher, therefore causing the sd to fluctuate between closer to 1.5 or away from significantly away from 1.5. Sam1000 on the other other hand as a higher chance of numbers being closer to 1.5, therefore creating a more stabilized sd. 
+
+#PART 3)
+
+#3.1) Create a matrix called samsri containing 200 random samples of 500 subjects in each sample from the population variable popri (1pt). 
+#HINT: Look at the end of section 3 from the in class portion of the lab.
+```{r}
+samsri = matrix(data=popri, ncol=200, nrow=500)
+```
+#3.2) Create a vector called samsri200means that contains the means for each column (sample) from samsri (1 pt)
+#HINT: Look at Exercise 4 from the in class portion.	
+```{r}
+samsri200means = numeric(200)
+for (i in 1:200){
+		  samsri200means[i]=mean(samsri[ ,i])
+}
+```
+# Check
+```{r}
+samsri200means
+```
+
+#3.3) Plot a density plot of samsri200means (0.5 pt). What does this distribution look like (0.5 pt)?
+```{r}
+hist(samsri200means)
+```
+It looks quite similar to the first random population trials we did. However, it is much thicker than before. What is noticable is that the frequency was around 64 again.
+
+#3.EC.1) Do #3.1 to 3.3 again, but now with only 20 random samples containing 500 subjects in each sample (0.5 pt)
+```{r}
+samsri20 = matrix(data=popri, ncol=20, nrow=500)
+samsri20means = numeric(20)
+for (i in 1:20){
+		  samsri20means[i]=mean(samsri20[ ,i])
+}
+samsri20means
+hist(samsri20means)
+```
+
+
+#3.EC.2) How does the density plot with 200 samples compare to the one with 20 samples? (0.5 pt)
+Because of the less samples, the plot is thicker with significantly less frequency than the other density plot. However, the graph is somehwat similar in data-wise, in the case that most of the numbers are close to 64.
