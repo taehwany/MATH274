@@ -1,0 +1,95 @@
+---
+title: "Lab 5 Homework"
+author: "Tae Hwan Yoo"
+date: "October 8, 2017"
+output:
+  html_document: default
+  pdf_document: default
+  word_document: default
+---
+
+#PART 1-The Central Limit Theorem under Normality)
+
+#1.1) Simulate a standard normal population of 1 million people called pop1 (1 pt)
+	
+```{r}
+pop1 = rnorm(1000000, 0, 1)
+```
+
+#1.2) Draw 5000 samples of size 20 and put these in sam20 (0.5pt).  Draw 5000 samples of size 50 and put these in sam50 (0.5pt).
+```{r}
+    sam20 = matrix(NA, ncol = 5000, nrow = 20)
+    sam50 = matrix(NA, ncol = 5000, nrow = 50)
+    for (i in 1:5000) {
+			sam20[ , i] = sample(pop1, 20, replace=TRUE)
+    }
+    for (i in 1:5000) {
+  		sam50[ , i] = sample(pop1, 50, replace=TRUE)
+    }
+
+```
+#1.3) Create variables called sam20means and sam50means that represent the means of the samples(0.5pt). 
+#     Also use a density plot to show the sampling distribution of the means for sam20means and sam50means together (0.5pt).
+```{r}
+sam20means = apply(sam20, 2, mean)
+sam50means = apply(sam50, 2, mean)
+plot(density(sam20means))
+lines(density(sam50means), col="red")
+```
+#1.4) Compare the Standard Error (SE) of the sampling distributions (0.5pt). Which sample size creates better estimates of the population mean (ie. has the lowest SE) (0.5pt)?	
+```{r}
+SE20 = sd(sam20means)/sqrt(5000)
+SE50 = sd(sam50means)/sqrt(5000)
+```
+
+Sample size 50 creates the better estimates of population mean
+
+######################################################		
+#PART 2-The Central Limit Theorem under Non-Normality)
+#NOTE: You will need to Load in the Rallfun_v23.txt file from blackboard to use the cnorm and tmean commands.
+#Use this command to read in the Rallfun_v23.txt file: source(file.choose()) 
+```{r}
+getwd()
+source('Rallfun-v33.txt')
+```
+
+#2.1) Simulate a contaminated normal population using cnorm() of 1 million people called pop2 where 30% (epsilon=0.3) of the data have an SD of 30 (k=30) (1 pt).
+```{r}
+pop2 = cnorm(1000000, 0.3, 30)
+```
+#2.2) Draw 5000 samples of size 30 and put these in sam30 (0.5pt).  Draw 5000 samples of size 100 and put these in sam100 (0.5pt).
+```{r}
+sam30 = matrix(NA, ncol = 5000, nrow = 30)
+sam100 = matrix(NA, ncol = 5000, nrow = 100)
+    for (i in 1:5000) {
+			sam30[ , i] = sample(pop2, 30, replace=TRUE)
+    }
+    for (i in 1:5000) {
+  		sam100[ , i] = sample(pop2, 100, replace=TRUE)
+    }
+```
+#2.3) Create variables called sam30means, sam30tmeans, sam100means, sam100tmeans that represent the means AND trimmed means for the samples(1 pt). 
+#     Also use a density plot to show the sampling distribution of the means and trimmed means for these variables (1 pt).
+```{r}
+sam30means = apply(sam30, 2, mean)
+sam100means = apply(sam100, 2, mean)
+sam100tmeans = apply(sam100, 2, tmean)
+plot(density(sam30means))
+lines(density(sam100means), col="red")
+lines(density(sam100tmeans), col="blue")
+```
+
+		
+#2.4) Compare the Standard Error (SE) of the sampling distributions (1pt). 
+	#Which would be better here: a larger sample size using the mean as the location estimator OR a smaller sample using the trimmed mean? (0.5pt)	
+	#Which location estimator performs the best, regardless of sample size? (0.5pt)
+```{r}
+SE30 = sd(sam30means)/sqrt(5000)
+SE100 = sd(sam100means)/sqrt(5000)
+SE100t = sd(sam100tmeans)/sqrt(1000)
+```
+A smaller sample while using trimmed mean would be a better choice overall.
+tmeans would be the best choice because it has the lowest error.
+	
+				
+		
