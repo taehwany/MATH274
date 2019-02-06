@@ -1,0 +1,133 @@
+---
+title: "Lab 3"
+author: "Tae Hwan Yoo"
+date: "September 12, 2017"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+#PART 1:
+
+#1.1) Enter the final exam scores provided in Chapter 2, Problem #5 (located on page 18) as a vector called vect (1 pt)
+```{r}
+c()
+vect <- c(73, 74, 92, 98, 100, 72, 74, 85, 76, 94, 89, 73, 76, 99)
+vect
+```
+#1.2) Compute the mean (0.5 pt) and sd (0.5 pt) of vect 
+# Mean
+```{r}
+mean(vect)
+```
+# Standard Deviation
+```{r}
+sd(vect, na.rm = TRUE)
+```
+#1.3) Using the Normal distribution: 
+	#A) What is the probability of a student scoring less than a 90 on the final exam (1 pt)
+	#B) What is the probability of a student scoring between a 70 and  85 on the final exam (2 pt)
+# Part A
+# Uses the mean and SD to find prob.
+```{r}
+pnorm(90, 83.92857, 11.02769)- (pnorm(90, 83.92857, 11.02769)-pnorm(89, 83.92857, 11.02769))
+```
+# or 
+```{r}
+pnorm(89, 83.92857, 11.02769)
+```
+# Check
+```{r}
+qnorm(0.6771995, 83.92857, 11.02769)
+```
+# Part B
+```{r}
+pnorm(85, 83.92857, 11.02769) - pnorm(69, 83.92857, 11.02769)
+```
+# Cannot really check, but can reality check
+# Find percentage of everything under 85, then from that, subtract possibility of under
+# 69, to between 70-85
+
+#1.EC) Using the Normal distribution: What score does a student need to be in the top 5%
+```{r}
+qnorm(0.95, 83.92857, 11.02768)
+```
+#PART 2:
+#2.1) Do Problem #24 from Chapter 4 (located on page 60) using the R functions you learned
+	#NOTE: The correct answers are in the back of the book, I want to see that you can get/verify these answers using R
+# n = 10 p = 0.4
+#A) (1 pt)
+# p(0)
+```{r}
+dbinom(0, 10, 0.4)
+```
+#B) (1 pt)
+# p(x<=3)
+```{r}
+pbinom(3, 10, 0.4)
+```
+# work
+```{r}
+dbinom(3, 10, 0.4)+dbinom(2, 10, 0.4)+dbinom(1, 10, 0.4)+dbinom(0, 10, 0.4)
+```
+#C) (1 pt)
+# p(x<3)
+```{r}
+pbinom(3, 10, 0.4) - dbinom(3, 10, 0.4)
+```
+# work 
+```{r}
+dbinom(2, 10, 0.4)+dbinom(1, 10, 0.4)+dbinom(0, 10, 0.4)
+```
+#D) (1 pt)	
+# p(x>4)
+```{r}
+1-pbinom(4, 10, 0.4)
+```
+# work
+```{r}
+dbinom(5, 10, 0.4)+dbinom(6, 10, 0.4)+dbinom(7, 10, 0.4)+dbinom(8, 10, 0.4)+dbinom(9, 10, 0.4)+dbinom(10, 10, 0.4)
+```
+#E) (1 pt)	
+# p(2<=x<=5)
+```{r}
+pbinom(5, 10, 0.4) - (pbinom(2, 10, 0.4) - dbinom(2, 10, 0.4))
+```
+# work
+```{r}
+dbinom(2, 10, 0.4)+dbinom(3, 10, 0.4)+dbinom(4, 10, 0.4)+dbinom(5, 10, 0.4)
+```
+#2.EC) Think up a binomial probability example and use R to find the probability (1 pt) 
+  
+# Sam Darnold is a beast QB for USC. His passing rate is 67.2% last season. Out of 
+# 10 passes, what is the probability that he will make 3 to 8 passes?
+```{r}
+pbinom(8, 10, 0.672) - (pbinom(3, 10, 0.672) - dbinom(3, 10, 0.672))
+```
+# work 
+```{r}
+dbinom(3, 10, 0.672)+dbinom(4, 10, 0.672)+dbinom(5, 10, 0.672)+dbinom(6, 10, 0.672)+dbinom(7, 10, 0.672)+dbinom(8, 10, 0.672)
+```
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
